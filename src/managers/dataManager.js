@@ -26,7 +26,7 @@ class DataManager {
         localStorage.setItem(props.key || this.localStorageKey, JSON.stringify(props.data))
       })
 
-      return;
+      return
     }
 
     localStorage.setItem(props.key || this.localStorageKey, JSON.stringify(props.data))

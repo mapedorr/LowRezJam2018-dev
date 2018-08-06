@@ -1,23 +1,23 @@
-import 'phaser'
+import 'phaser';
 
-import BootScene from './scenes/ui/boot'
+import BootScene from './scenes/ui/boot';
 
-import SplashScene from './scenes/ui/splash'
-import MadeWithScene from './scenes/ui/madeWith'
+import SplashScene from './scenes/ui/splash';
+import MadeWithScene from './scenes/ui/madeWith';
 
-import MainMenuScene from './scenes/ui/mainMenu'
-import OptionsScene from './scenes/ui/options'
-import CreditsScene from './scenes/ui/credits'
+import MainMenuScene from './scenes/ui/mainMenu';
+import OptionsScene from './scenes/ui/options';
+import CreditsScene from './scenes/ui/credits';
 
-import HUDGameScene from './scenes/game/HUDGame'
-import BaseGameScene from './scenes/game/baseGame'
+import HUDGameScene from './scenes/game/HUDGame';
+import BaseGameScene from './scenes/game/baseGame';
 
-import PauseScene from './scenes/ui/pause'
+import PauseScene from './scenes/ui/pause';
 
-import getSceneManager from './managers/sceneManager'
-import getDataManager from './managers/dataManager'
+import getSceneManager from './managers/sceneManager';
+import getDataManager from './managers/dataManager';
 
-window.scale = 8
+window.scale = 8;
 window.gameOptions = {
   // game scale
   scale: 8,
@@ -26,13 +26,13 @@ window.gameOptions = {
   resolution: 64,
 
   // player gravity
-  playerGravity: 900,
+  playerGravity: 400,
 
   // player friction when on wall
   playerGrip: 100,
 
   // player horizontal speed
-  playerSpeed: 200,
+  playerSpeed: 20,
 
   // player jump force
   playerJump: 400,
@@ -44,7 +44,7 @@ window.gameOptions = {
     x: 30,
     y: -100
   }
-}
+};
 
 window.game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -69,19 +69,19 @@ window.game = new Phaser.Game({
     PauseScene
   ],
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: {
         y: 0
       }
     }
   }
-})
+});
 
 // init managers
-getSceneManager(window.game.scene)
-getDataManager()
+getSceneManager(window.game.scene);
+getDataManager();
 
-document.getElementById('game').focus()
+document.getElementById('game').focus();
 
-window.focus()
+window.focus();

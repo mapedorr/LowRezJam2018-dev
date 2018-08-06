@@ -1,13 +1,13 @@
-import Scene from '../scene'
-import getDataManager from '../../managers/dataManager'
+import Scene from '../scene';
+import getDataManager from '../../managers/dataManager';
 
 export default class MainMenuScene extends Scene {
   constructor() {
-    super({ key: 'mainMenu' })
+    super({ key: 'mainMenu' });
   }
 
   create(params) {
-    super.create(params)
+    super.create(params);
 
     // TODO: add the background image for the menu
     // this.background = this.add.image(
@@ -21,17 +21,17 @@ export default class MainMenuScene extends Scene {
       font: 'KenneyMini',
       text: 'start',
       size: 12,
-      onClick: (self) => {
-        this.changeToScene('baseGameScene')
+      onClick: self => {
+        this.changeToScene('baseGameScene');
       },
-      onHover: (self) => {
-        self.setTint(0xff99ff)
+      onHover: self => {
+        self.setTint(0xff99ff);
       },
-      onOut: (self) => {
-        self.setTint(0xffffff)
+      onOut: self => {
+        self.setTint(0xffffff);
       },
       scale: 1.0
-    })
+    });
 
     this.credits = this.createButton({
       x: 32,
@@ -39,19 +39,17 @@ export default class MainMenuScene extends Scene {
       font: 'KenneyMini',
       text: 'credits',
       size: 12,
-      onClick: (self) => {
-        this.open('creditsScene')
+      onClick: self => {
+        this.open('creditsScene');
       },
-      onHover: (self) => {
-        self.setTint(0xff99ff)
+      onHover: self => {
+        self.setTint(0xff99ff);
       },
-      onOut: (self) => {
-        self.setTint(0xffffff)
+      onOut: self => {
+        self.setTint(0xffffff);
       },
       scale: 1.0
-    })
+    });
     // └───────────────────────────────────────────────────────────────────────┘
-
   }
-
 }
