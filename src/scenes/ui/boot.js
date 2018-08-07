@@ -7,8 +7,8 @@ export default class BootScene extends Scene {
   constructor() {
     super({ key: 'bootScene' });
 
-    // this.nextScene = 'madeWithScene' // DEFAUL
-    this.nextScene = 'mainMenu';
+    this.nextScene = 'madeWithScene'; // DEFAUL
+    // this.nextScene = 'baseGameScene';
   }
 
   preload() {
@@ -129,8 +129,8 @@ export default class BootScene extends Scene {
     );
 
     this.load.spritesheet(
-      'pc',
-      urlBase + 'assets/sprites/character sprites/PC.png',
+      'penta',
+      urlBase + 'assets/sprites/character sprites/Penta.png',
       { frameWidth: 8, frameHeight: 8 }
     );
     this.load.image('tiles', 'assets/sprites/level sprites/tiles.png');

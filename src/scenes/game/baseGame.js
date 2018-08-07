@@ -35,20 +35,22 @@ export default class BaseGameScene extends Scene {
     );
 
     // ┌ setup Level 01 ───────────────────────────────────────────────────────┐
-    this.map = this.make.tilemap({ key: 'map' });
+    this.map = this.make.tilemap({
+      key: 'map',
+      tileWidth: window.gameOptions.tileSize,
+      tileHeight: window.gameOptions.tileSize
+    });
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
     const tileset = this.map.addTilesetImage('Level 1', 'tiles');
-
-    // tile 1 (the black tile) has the collision enabled
-    // this.map.setCollision(1);
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     this.belowLayer = this.map.createStaticLayer('background', tileset);
     this.worldLayer = this.map.createStaticLayer('ground', tileset);
 
     this.worldLayer.setCollisionByProperty({ collides: true });
+    // this.map.setCollisionByProperty({ collides: true });
 
     const spawnPoint = this.map.findObject(
       'Objects',
@@ -56,71 +58,28 @@ export default class BaseGameScene extends Scene {
     );
     // └───────────────────────────────────────────────────────────────────────┘
 
-    // ┌ setup the PC ─────────────────────────────────────────────────────────┐
-    // adding the hero sprite and enabling ARCADE physics for the hero
-    this.penta = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'pc');
+    // ┌ setup Penta ──────────────────────────────────────────────────────────┐
+    // adding Penta sprite and enabling ARCADE physics for Penta
+    this.penta = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'penta');
+
+    // set the default direction
+    this.penta.direction = 1;
 
     // Watch the player and worldLayer for collisions, for the duration of the scene:
     this.physics.add.collider(
       this.penta,
       this.worldLayer,
-      function(penta, layer) {
-        // some temporary variables to determine if the player is blocked only once
-        let blockedDown = penta.body.blocked.down;
-        let blockedLeft = penta.body.blocked.left;
-        let blockedRight = penta.body.blocked.right;
-
-        // if the hero hits something, no double jump is allowed
-        this.canDoubleJump = false;
-
-        // hero on the ground
-        if (blockedDown) {
-          // hero can jump
-          this.canJump = true;
-        }
-
-        // hero on the ground and touching a wall on the right
-        if (blockedRight) {
-          // horizontal flipping hero sprite
-          penta.flipX = true;
-        }
-
-        // hero on the ground and touching a wall on the right
-        if (blockedLeft) {
-          // default orientation of hero sprite
-          penta.flipX = false;
-        }
-
-        // hero NOT on the ground and touching a wall
-        if ((blockedRight || blockedLeft) && !blockedDown) {
-          // hero on a wall
-          penta.scene.onWall = true;
-
-          // remove gravity
-          penta.body.gravity.y = 0;
-
-          // setting new y velocity
-          penta.body.velocity.y = window.gameOptions.playerGrip;
-        }
-
-        // adjusting hero speed according to the direction it's moving
-        this.setPlayerXVelocity(!this.onWall || blockedDown);
-      },
+      this.movePenta,
       null,
       this
     );
 
-    // setting hero horizontal speed
+    // setting penta horizontal speed
     this.penta.body.velocity.x = window.gameOptions.playerSpeed;
-
-    // the hero can jump
-    this.canJump = true;
+    this.penta.body.gravity.y = window.gameOptions.playerGravity;
 
     // the hern cannot double jump
     this.canDoubleJump = false;
-
-    // the hero is not on the wall
-    this.onWall = false;
 
     // set workd bounds to allow camera to follow the player
     this.cameras.main.setBounds(0, 0, 512, 64);
@@ -129,7 +88,7 @@ export default class BaseGameScene extends Scene {
     this.cameras.main.startFollow(this.penta);
 
     // waiting for player input
-    this.input.on('pointerdown', this.jump, this);
+    this.input.on('pointerdown', this.addBlock, this);
     // └───────────────────────────────────────────────────────────────────────┘
   }
 
@@ -140,38 +99,105 @@ export default class BaseGameScene extends Scene {
 
   update() {
     // set some default gravity values. Look at the function for more information
-    this.setDefaultValues();
+    if (this.penta.isJumping) {
+      this.penta.body.velocity.x =
+        window.gameOptions.playerJumpSpeed.x * this.penta.direction;
+    } else if (this.penta.body.blocked.down) {
+      this.penta.body.velocity.x =
+        window.gameOptions.playerSpeed * (this.penta.flipX ? -1 : 1);
+    } else {
+      this.penta.body.velocity.x = 0;
+    }
   }
 
-  // default values to be set at the beginning of each update cycle,
-  // which may be changed according to what happens into "collide" callback function
-  // (if called)
-  setDefaultValues() {
-    this.penta.body.gravity.y = window.gameOptions.playerGravity;
-    this.onWall = false;
-    this.setPlayerXVelocity(true);
-  }
+  movePenta(penta, layer) {
+    // some temporary variables to determine if the player is blocked only once
+    let blockedDown = penta.body.blocked.down;
+    let blockedLeft = penta.body.blocked.left;
+    let blockedRight = penta.body.blocked.right;
 
-  // sets player velocity according to the direction it's facing, unless "defaultDirection"
-  // is false, in this case multiplies the velocity by -1
-  setPlayerXVelocity(defaultDirection) {
-    this.penta.body.velocity.x =
-      window.gameOptions.playerSpeed *
-      (this.penta.flipX ? -1 : 1) *
-      (defaultDirection ? 1 : -1);
+    // if Penta hits something, no double jump is allowed
+    this.canDoubleJump = false;
+
+    // penta on the ground
+    if (blockedDown) {
+      this.penta.isJumping = false;
+    }
+
+    //   [ note ] the second condition is used to prevent Penta from jumping afer
+    //            changing his movement direction.
+    if (blockedRight && this.penta.direction === 1) {
+      const tilesAtNorthEast = this.map.getTilesWithin(
+        layer.x,
+        layer.y - 1,
+        1,
+        1,
+        { isNotEmpty: true },
+        this.worldLayer
+      );
+
+      const tilesAtNorth = this.map.getTilesWithin(
+        layer.x - 1,
+        layer.y - 1,
+        1,
+        1,
+        { isNotEmpty: true },
+        this.worldLayer
+      );
+
+      if (
+        (tilesAtNorthEast.length === 0 && tilesAtNorth.length === 0) ||
+        this.penta.isJumping
+      ) {
+        this.jump();
+      } else {
+        // horizontal flipping penta sprite
+        penta.flipX = true;
+        this.penta.direction *= -1;
+      }
+    }
+
+    // penta on the ground and touching a wall on the right
+    //   [ note ] the second condition is used to prevent Penta from jumping afer
+    //            changing his movement direction.
+    if (blockedLeft && this.penta.direction === -1) {
+      const tilesAtNorthWest = this.map.getTilesWithin(
+        layer.x,
+        layer.y - 1,
+        1,
+        1,
+        { isNotEmpty: true },
+        this.worldLayer
+      );
+
+      const tilesAtNorth = this.map.getTilesWithin(
+        layer.x + 1,
+        layer.y - 1,
+        1,
+        1,
+        { isNotEmpty: true },
+        this.worldLayer
+      );
+
+      if (
+        (tilesAtNorthWest.length === 0 && tilesAtNorth.length === 0) ||
+        this.penta.isJumping
+      ) {
+        this.jump();
+      } else {
+        // default orientation of penta sprite
+        penta.flipX = false;
+        this.penta.direction *= -1;
+      }
+    }
   }
 
   jump() {
-    if ((this.canJump && this.penta.body.blocked.down) || this.onWall) {
-      this.penta.body.velocity.y = window.gameOptions.playerJumpSpeed.y;
-      // this.penta.body.velocity.x =
-      //   window.gameOptions.playerJumpSpeed.x * this.penta.direction;
-      this.penta.isJumping = true;
-      // hero can't jump anymore
-      this.canJump = false;
+    this.penta.body.velocity.y = window.gameOptions.playerJumpSpeed.y;
+    this.penta.isJumping = true;
+  }
 
-      // hero is not on the wall anymore
-      this.onWall = false;
-    }
+  addBlock() {
+    // TODO: add a block to the level
   }
 }

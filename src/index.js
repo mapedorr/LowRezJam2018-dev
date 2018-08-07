@@ -21,28 +21,17 @@ window.scale = 8;
 window.gameOptions = {
   // game scale
   scale: 8,
-
   // resolution
   resolution: 64,
-
+  tileSize: 8,
   // player gravity
-  playerGravity: 400,
-
-  // player friction when on wall
-  playerGrip: 100,
-
+  playerGravity: 40,
   // player horizontal speed
   playerSpeed: 20,
-
-  // player jump force
-  playerJump: 400,
-
-  // player double jump force
-  playerDoubleJump: 300,
-
+  // player speeds while jumping
   playerJumpSpeed: {
-    x: 30,
-    y: -100
+    x: 5,
+    y: -16
   }
 };
 
