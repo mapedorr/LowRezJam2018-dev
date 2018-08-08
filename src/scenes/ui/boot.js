@@ -7,8 +7,8 @@ export default class BootScene extends Scene {
   constructor() {
     super({ key: 'bootScene' });
 
-    this.nextScene = 'madeWithScene'; // DEFAUL
-    // this.nextScene = 'baseGameScene';
+    // this.nextScene = 'madeWithScene'; // DEFAUL
+    this.nextScene = 'baseGameScene';
   }
 
   preload() {
@@ -131,7 +131,11 @@ export default class BootScene extends Scene {
     this.load.spritesheet(
       'penta',
       urlBase + 'assets/sprites/character sprites/Penta.png',
-      { frameWidth: 8, frameHeight: 8 }
+      { frameWidth: 7, frameHeight: 7 }
+    );
+    this.load.image(
+      'magicBlock',
+      'assets/sprites/ui sprites/magicBlock_ico.png'
     );
     this.load.image('tiles', 'assets/sprites/level sprites/tiles.png');
     this.load.tilemapTiledJSON('map', 'assets/tilemaps/lvl01.json');

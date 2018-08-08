@@ -18,12 +18,15 @@ export default class BaseGameScene extends Scene {
   create(params) {
     // create the scene and assign a random number to it
     super.create(params);
+
+    // set defaults
     this.id = Math.random();
+    this.tilePoint = null;
 
     this.sceneManager.addGameScene(this.scene.key);
 
     // TODO: add the HUD (scene)
-    // this.sceneManager.overlay('HUDGameScene')
+    // this.sceneManager.overlay('HUDGameScene');
 
     // add the listener for the shutdown event
     this.events.on(
@@ -47,10 +50,11 @@ export default class BaseGameScene extends Scene {
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     this.belowLayer = this.map.createStaticLayer('background', tileset);
-    this.worldLayer = this.map.createStaticLayer('ground', tileset);
+    this.worldLayer = this.map.createDynamicLayer('ground', tileset);
 
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    // this.map.setCollisionByProperty({ collides: true });
+    this.worldLayer.setCollisionByProperty({
+      collides: true
+    });
 
     const spawnPoint = this.map.findObject(
       'Objects',
@@ -66,7 +70,7 @@ export default class BaseGameScene extends Scene {
     this.penta.direction = 1;
 
     // Watch the player and worldLayer for collisions, for the duration of the scene:
-    this.physics.add.collider(
+    this.worldLayerCollider = this.physics.add.collider(
       this.penta,
       this.worldLayer,
       this.movePenta,
@@ -74,7 +78,7 @@ export default class BaseGameScene extends Scene {
       this
     );
 
-    // setting penta horizontal speed
+    // set penta's horizontal and vertical speeds
     this.penta.body.velocity.x = window.gameOptions.playerSpeed;
     this.penta.body.gravity.y = window.gameOptions.playerGravity;
 
@@ -88,6 +92,7 @@ export default class BaseGameScene extends Scene {
     this.cameras.main.startFollow(this.penta);
 
     // waiting for player input
+    //    [ note ] this.input >> Phaser.Input.InputPlugin
     this.input.on('pointerdown', this.addBlock, this);
     // └───────────────────────────────────────────────────────────────────────┘
   }
@@ -127,9 +132,18 @@ export default class BaseGameScene extends Scene {
     //   [ note ] the second condition is used to prevent Penta from jumping afer
     //            changing his movement direction.
     if (blockedRight && this.penta.direction === 1) {
+      const pentaWorldPoint = this.map.worldToTileXY(
+        penta.x,
+        penta.y,
+        true,
+        undefined,
+        undefined,
+        this.worldLayer
+      );
+
       const tilesAtNorthEast = this.map.getTilesWithin(
-        layer.x,
-        layer.y - 1,
+        pentaWorldPoint.x + 1,
+        pentaWorldPoint.y - 1,
         1,
         1,
         { isNotEmpty: true },
@@ -137,8 +151,8 @@ export default class BaseGameScene extends Scene {
       );
 
       const tilesAtNorth = this.map.getTilesWithin(
-        layer.x - 1,
-        layer.y - 1,
+        pentaWorldPoint.x,
+        pentaWorldPoint.y - 1,
         1,
         1,
         { isNotEmpty: true },
@@ -161,9 +175,18 @@ export default class BaseGameScene extends Scene {
     //   [ note ] the second condition is used to prevent Penta from jumping afer
     //            changing his movement direction.
     if (blockedLeft && this.penta.direction === -1) {
+      const pentaWorldPoint = this.map.worldToTileXY(
+        penta.x,
+        penta.y,
+        true,
+        undefined,
+        undefined,
+        this.worldLayer
+      );
+
       const tilesAtNorthWest = this.map.getTilesWithin(
-        layer.x,
-        layer.y - 1,
+        pentaWorldPoint.x - 1,
+        pentaWorldPoint.y - 1,
         1,
         1,
         { isNotEmpty: true },
@@ -171,8 +194,8 @@ export default class BaseGameScene extends Scene {
       );
 
       const tilesAtNorth = this.map.getTilesWithin(
-        layer.x + 1,
-        layer.y - 1,
+        pentaWorldPoint.x,
+        pentaWorldPoint.y - 1,
         1,
         1,
         { isNotEmpty: true },
@@ -197,7 +220,62 @@ export default class BaseGameScene extends Scene {
     this.penta.isJumping = true;
   }
 
-  addBlock() {
-    // TODO: add a block to the level
+  addBlock(pointer, gameObject) {
+    // Convert the mouse position to world position within the camera
+    const worldPoint = this.input.activePointer.positionToCamera(
+      this.cameras.main
+    );
+
+    worldPoint.x = Math.floor(worldPoint.x);
+    worldPoint.y = Math.floor(worldPoint.y);
+
+    const pentaWorldPoint = this.map.worldToTileXY(
+      this.penta.x,
+      this.penta.y,
+      true,
+      undefined,
+      undefined,
+      this.worldLayer
+    );
+
+    // get the distance between the pointer position and Penta's position
+    const distanceX = worldPoint.x - pentaWorldPoint.x;
+    const distanceY = worldPoint.y - pentaWorldPoint.y;
+
+    // check if the click was done inside the range where it changes the movement
+    // direction of Penta, otherwise, try to create the magick block
+    if (distanceX === 0 && distanceY === 0) {
+      this.penta.direction *= -1;
+      this.penta.flipX = !this.penta.flipX;
+    } else {
+      if (
+        !this.map.getTileAt(
+          worldPoint.x,
+          worldPoint.y,
+          undefined,
+          this.worldLayer
+        )
+      ) {
+        if (this.tilePoint !== null) {
+          this.map.removeTileAt(
+            this.tilePoint.x,
+            this.tilePoint.y,
+            undefined,
+            undefined,
+            this.worldLayer
+          );
+        }
+        const createdTile = this.map.putTileAt(
+          4,
+          worldPoint.x,
+          worldPoint.y,
+          undefined,
+          this.worldLayer
+        );
+        createdTile.setCollision(true);
+
+        this.tilePoint = new Phaser.Geom.Point(createdTile.x, createdTile.y);
+      }
+    }
   }
 }

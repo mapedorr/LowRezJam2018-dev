@@ -27,12 +27,13 @@ window.gameOptions = {
   // player gravity
   playerGravity: 40,
   // player horizontal speed
-  playerSpeed: 20,
+  playerSpeed: 10,
   // player speeds while jumping
   playerJumpSpeed: {
     x: 5,
     y: -16
-  }
+  },
+  changeDirectionRange: 8
 };
 
 window.game = new Phaser.Game({
