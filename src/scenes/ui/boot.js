@@ -88,23 +88,6 @@ export default class BootScene extends Scene {
       urlBase = awsPrefix;
     }
 
-    // load Carenalga logo
-    this.load.image(
-      'carenalga',
-      urlBase + 'assets/sprites/ui sprites/carenalga_bg.png'
-    );
-
-    // load Phaser logo
-    this.load.image(
-      'phaserLogo',
-      urlBase + 'assets/sprites/ui sprites/phaser_bg.png'
-    );
-
-    // fake loader
-    // for (var i = 0; i < 500; i++) {
-    //   this.load.spritesheet(`logo-${i}`, urlBase + 'assets/phaserLogo.png', { frameWidth: 382, frameHeight: 331 })
-    // }
-
     // load fonts
     this.load.bitmapFont(
       'keneyPixel',
@@ -117,27 +100,20 @@ export default class BootScene extends Scene {
       urlBase + 'assets/fonts/KenneyMini12px.fnt'
     );
 
-    // load game sprites and levels
-    // this.load.image(
-    //   'mainMenu_bg',
-    //   urlBase + 'assets/sprites/ui sprites/MainMenu.png'
-    // );
-
-    this.load.image(
-      'credits_bg',
-      urlBase + 'assets/sprites/ui sprites/credits_bg.jpg'
+    // load the atlas with all the sprites for the game
+    this.load.atlas(
+      window.gameOptions.gameSpritesKey,
+      `assets/sprites/${window.gameOptions.gameSpritesKey}.png`,
+      `assets/sprites/${window.gameOptions.gameSpritesKey}.json`
     );
 
-    this.load.spritesheet(
-      'penta',
-      urlBase + 'assets/sprites/character sprites/Penta.png',
-      { frameWidth: 7, frameHeight: 7 }
-    );
-    this.load.image(
-      'magicBlock',
-      'assets/sprites/ui sprites/magicBlock_ico.png'
-    );
-    this.load.image('tiles', 'assets/sprites/level sprites/tiles.png');
-    this.load.tilemapTiledJSON('map', 'assets/tilemaps/lvl01.json');
+    // load the JSONs and sprites for the levels
+    this.load.image('tiles', 'assets/levels/tiles.png');
+    this.load.tilemapTiledJSON('map', 'assets/levels/lvl01.json');
+
+    // fake loader
+    // for (var i = 0; i < 500; i++) {
+    //   this.load.spritesheet(`logo-${i}`, urlBase + 'assets/phaserLogo.png', { frameWidth: 382, frameHeight: 331 })
+    // }
   }
 }

@@ -1,0 +1,335 @@
+{
+	"textures": [
+		{
+			"image": "spritesAtlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 150,
+				"h": 66
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "ui/carenalga_bg",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "ui/phaser_bg",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 67,
+						"y": 1,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "characters/penta/fall-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 1,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/idle-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 1,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/idle-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 10,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/jump-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 10,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/jump-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 19,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 19,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 28,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 28,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 37,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 37,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 46,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "ui/pause_btn",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 46,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "ui/play_btn",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 55,
+						"w": 7,
+						"h": 7
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:3a5ee34e3adc472a5f86861fb82eb88c:3706f5c35f80d63d1a29afa02984dde9:941fdc8fcb393b91cb8b27a54e5a9c98$"
+	}
+}

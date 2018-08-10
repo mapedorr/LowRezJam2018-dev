@@ -12,7 +12,8 @@ export default class SplashScene extends Scene {
     this.logo = this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
-      'carenalga'
+      window.gameOptions.gameSpritesKey,
+      'ui/carenalga_bg'
     );
 
     this.time.delayedCall(

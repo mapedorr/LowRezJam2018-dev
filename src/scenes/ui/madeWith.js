@@ -13,7 +13,8 @@ export default class MadeWithScene extends Scene {
     this.logo = this.add.sprite(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
-      'phaserLogo'
+      window.gameOptions.gameSpritesKey,
+      'ui/phaser_bg'
     );
 
     this.time.delayedCall(

@@ -1,49 +1,50 @@
-import Scene from '../scene'
+import Scene from '../scene';
 
 export default class HUDGameScene extends Scene {
-  constructor () {
-    super({key: 'HUDGameScene'})
+  constructor() {
+    super({ key: 'HUDGameScene' });
   }
 
-  create (params) {
-    super.create(params)
-    this.sceneManager.addGameScene(this.scene.key)
+  create(params) {
+    super.create(params);
+    // this.sceneManager.addGameScene(this.scene.key);
 
-    this.pause = this.createButton({
-      x: 50,
-      y: 50,
-      font: 'keneyPixel',
-      text: 'pause',
-      onClick: (self) => {
-        this.sceneManager.overlay('pauseScene')
-      },
-      onHover: (self) => {
-        self.setTint(0xff99ff)
-      },
-      onOut: (self) => {
-        self.setTint(0xffffff)
-      },
-      scale: 1.0
-    })
+    this.paused = false;
 
-    this.titleText.y += 20
-    this.titleText.x += 20
+    this.pauseBtn = this.add.image(
+      6,
+      6,
+      window.gameOptions.gameSpritesKey,
+      'ui/pause_btn'
+    );
 
-    // display and get notified when a value changes in the game
-    this.angleText = this.add.bitmapText(450, 550, 'keneyPixel', `Angle: ${this.registry.get('angle')}`)
-    this.angleText.setTint(0xffffff)
-    this.lapsText = this.add.bitmapText(450, 570, 'keneyPixel', `Laps: ${this.registry.get('laps') || 0}`)
-    this.lapsText.setTint(0xffffff)
+    this.pausedTxt = this.add.bitmapText(32, 32, 'KenneyMini', 'paused', 8);
+    this.pausedTxt.setOrigin(0.5);
+    this.pausedTxt.alpha = 0;
 
-    this.registry.events.on('changedata', this.updateData, this)
+    this.pauseBtn.setInteractive();
+    this.pauseBtn.on('pointerdown', _ => {
+      if (this.paused === true) {
+        this.pauseBtn.setTexture(
+          window.gameOptions.gameSpritesKey,
+          'ui/pause_btn'
+        );
+        this.sceneManager.resumeGame();
+        this.pausedTxt.alpha = 0;
+
+        this.paused = false;
+      } else {
+        this.pauseBtn.setTexture(
+          window.gameOptions.gameSpritesKey,
+          'ui/play_btn'
+        );
+        this.sceneManager.pauseGame();
+        this.pausedTxt.alpha = 1;
+
+        this.paused = true;
+      }
+    });
+
+    // this.registry.events.on('changedata', this.updateData, this);
   }
-
-  updateData (parent, key, data) {
-    if (key === 'angle') {
-      this.angleText.setText(`Angle: ${data}`)
-    } else if(key === 'laps'){
-      this.lapsText.setText(`Laps: ${data}`)
-    }
-  }
-
 }

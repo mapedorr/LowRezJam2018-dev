@@ -25,8 +25,8 @@ export default class BaseGameScene extends Scene {
 
     this.sceneManager.addGameScene(this.scene.key);
 
-    // TODO: add the HUD (scene)
-    // this.sceneManager.overlay('HUDGameScene');
+    // add the HUD (scene)
+    this.sceneManager.overlay('HUDGameScene');
 
     // add the listener for the shutdown event
     this.events.on(
@@ -64,10 +64,40 @@ export default class BaseGameScene extends Scene {
 
     // ┌ setup Penta ──────────────────────────────────────────────────────────┐
     // adding Penta sprite and enabling ARCADE physics for Penta
-    this.penta = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'penta');
+    this.penta = this.physics.add.sprite(
+      spawnPoint.x,
+      spawnPoint.y,
+      window.gameOptions.gameSpritesKey,
+      'characters/penta/idle-001'
+    );
 
     // set the default direction
     this.penta.direction = 1;
+
+    // ├── setup the animations for Penta ─┐
+    // anims: https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Components.Animation.html
+    // AnimationConfig: https://photonstorm.github.io/phaser3-docs/global.html#AnimationConfig
+    this.anims.create({
+      key: 'penta-fall',
+      frames: this.generateFrameNames('fall'),
+      frameRate: 1,
+      repeat: 1
+    });
+    this.anims.create({
+      key: 'penta-walk',
+      frames: this.generateFrameNames('walk', 6),
+      frameRate: 14,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'penta-jump',
+      frames: this.generateFrameNames('jump'),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.penta.anims.play('penta-fall');
+    // └───────────────────────────────────┘
 
     // Watch the player and worldLayer for collisions, for the duration of the scene:
     this.worldLayerCollider = this.physics.add.collider(
@@ -111,8 +141,22 @@ export default class BaseGameScene extends Scene {
       this.penta.body.velocity.x =
         window.gameOptions.playerSpeed * (this.penta.flipX ? -1 : 1);
     } else {
+      // penta falling
       this.penta.body.velocity.x = 0;
+
+      if (this.penta.anims.currentAnim.key !== 'penta-fall') {
+        this.penta.anims.play('penta-fall');
+      }
     }
+  }
+
+  generateFrameNames(animationId, end) {
+    return this.anims.generateFrameNames(window.gameOptions.gameSpritesKey, {
+      start: 1,
+      end: end || 2,
+      zeroPad: 3,
+      prefix: `characters/penta/${animationId}-`
+    });
   }
 
   movePenta(penta, layer) {
@@ -127,6 +171,10 @@ export default class BaseGameScene extends Scene {
     // penta on the ground
     if (blockedDown) {
       this.penta.isJumping = false;
+
+      if (penta.anims.currentAnim.key !== 'penta-walk') {
+        penta.anims.play('penta-walk');
+      }
     }
 
     //   [ note ] the second condition is used to prevent Penta from jumping afer
@@ -218,6 +266,10 @@ export default class BaseGameScene extends Scene {
   jump() {
     this.penta.body.velocity.y = window.gameOptions.playerJumpSpeed.y;
     this.penta.isJumping = true;
+
+    if (this.penta.anims.currentAnim.key !== 'penta-jump') {
+      this.penta.anims.play('penta-jump');
+    }
   }
 
   addBlock(pointer, gameObject) {
@@ -266,7 +318,7 @@ export default class BaseGameScene extends Scene {
           );
         }
         const createdTile = this.map.putTileAt(
-          4,
+          1,
           worldPoint.x,
           worldPoint.y,
           undefined,
