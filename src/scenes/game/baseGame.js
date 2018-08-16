@@ -143,6 +143,8 @@ export default class BaseGameScene extends Scene {
     this.penta.body.velocity.x = window.gameOptions.playerSpeed;
     this.penta.body.gravity.y = window.gameOptions.playerGravity;
 
+    this.cameras.main.roundPixels = true;
+
     // set workd bounds to allow camera to follow the player
     this.cameras.main.setBounds(0, 0, 256, 64);
 
