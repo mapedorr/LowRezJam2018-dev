@@ -19,6 +19,14 @@ export default class BaseGameScene extends Scene {
     // create the scene and assign a random number to it
     super.create(params);
 
+    this.events.on('pause', _ => {
+      this.music.pause();
+    });
+
+    this.events.on('resume', _ => {
+      this.music.resume();
+    });
+
     // set defaults
     this.id = Math.random();
     this.tilePoint = null;
@@ -39,25 +47,39 @@ export default class BaseGameScene extends Scene {
 
     // ┌ setup Level 01 ───────────────────────────────────────────────────────┐
     this.map = this.make.tilemap({
-      key: 'map',
-      tileWidth: window.gameOptions.tileSize,
-      tileHeight: window.gameOptions.tileSize
+      key: 'map'
     });
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
-    const tileset = this.map.addTilesetImage('Level 1', 'tiles');
+    const tileset = this.map.addTilesetImage('GameBoyTiles', 'tiles');
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    this.belowLayer = this.map.createStaticLayer('background', tileset);
+    this.belowLayer = this.map.createDynamicLayer('background', tileset);
     this.worldLayer = this.map.createDynamicLayer('ground', tileset);
+    this.exitLayer = this.map.createDynamicLayer('exit', tileset);
 
+    // setup collisions with layers
     this.worldLayer.setCollisionByProperty({
       collides: true
     });
+    this.exitLayer.setCollisionByProperty({
+      collides: true
+    });
+
+    // ┌ code of block took from: https://bit.ly/2O9udu8 ───────┐
+    if (window.gameOptions.debugging === true) {
+      const debugGraphics = this.add.graphics().setAlpha(0.75);
+      this.worldLayer.renderDebug(debugGraphics, {
+        tileColor: null, // color of no colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // color of colliding tiles
+        faceColor: new Phaser.Display.Color(221, 42, 42, 255) // color of colliding face edges
+      });
+    }
+    // └────────────────────────────────────────────────────────┘
 
     const spawnPoint = this.map.findObject(
-      'Objects',
+      'objects',
       obj => obj.name === 'Spawn Point'
     );
     // └───────────────────────────────────────────────────────────────────────┘
@@ -108,15 +130,21 @@ export default class BaseGameScene extends Scene {
       this
     );
 
+    // Watch the player and exitLayer for collisions, for the duration of the scene:
+    this.exitLayerCollider = this.physics.add.collider(
+      this.penta,
+      this.exitLayer,
+      this.endLevel,
+      null,
+      this
+    );
+
     // set penta's horizontal and vertical speeds
     this.penta.body.velocity.x = window.gameOptions.playerSpeed;
     this.penta.body.gravity.y = window.gameOptions.playerGravity;
 
-    // the hern cannot double jump
-    this.canDoubleJump = false;
-
     // set workd bounds to allow camera to follow the player
-    this.cameras.main.setBounds(0, 0, 512, 64);
+    this.cameras.main.setBounds(0, 0, 256, 64);
 
     // making the camera follow the player
     this.cameras.main.startFollow(this.penta);
@@ -125,6 +153,12 @@ export default class BaseGameScene extends Scene {
     //    [ note ] this.input >> Phaser.Input.InputPlugin
     this.input.on('pointerdown', this.addBlock, this);
     // └───────────────────────────────────────────────────────────────────────┘
+
+    this.music = this.sound.add('mainTheme');
+    this.music.volume = 0.5;
+    this.music.play({
+      loop: -1
+    });
   }
 
   shutdown() {
@@ -133,6 +167,14 @@ export default class BaseGameScene extends Scene {
   }
 
   update() {
+    if (this.isPlayerDead === true) return;
+
+    // check if the player has been reached the end of the level
+    if (this.levelEnded === true) {
+      this.penta.body.velocity.x = 0;
+      return;
+    }
+
     // set some default gravity values. Look at the function for more information
     if (this.penta.isJumping) {
       this.penta.body.velocity.x =
@@ -147,6 +189,23 @@ export default class BaseGameScene extends Scene {
       if (this.penta.anims.currentAnim.key !== 'penta-fall') {
         this.penta.anims.play('penta-fall');
       }
+    }
+
+    if (this.penta.y > this.worldLayer.height + 16) {
+      // Flag that the player is dead so that we can stop update from running in the future
+      this.isPlayerDead = true;
+
+      const cam = this.cameras.main;
+      cam.shake(100, 0.05);
+      cam.fade(250, 0, 0, 0);
+
+      // Freeze the player to leave them on screen while fading but remove the marker immediately
+      this.penta.body.moves = false;
+
+      cam.once('camerafadeoutcomplete', () => {
+        this.penta.destroy();
+        this.scene.restart();
+      });
     }
   }
 
@@ -165,9 +224,6 @@ export default class BaseGameScene extends Scene {
     let blockedLeft = penta.body.blocked.left;
     let blockedRight = penta.body.blocked.right;
 
-    // if Penta hits something, no double jump is allowed
-    this.canDoubleJump = false;
-
     // penta on the ground
     if (blockedDown) {
       this.penta.isJumping = false;
@@ -176,6 +232,8 @@ export default class BaseGameScene extends Scene {
         penta.anims.play('penta-walk');
       }
     }
+
+    if (this.penta.isJumping === true) return;
 
     //   [ note ] the second condition is used to prevent Penta from jumping afer
     //            changing his movement direction.
@@ -189,33 +247,44 @@ export default class BaseGameScene extends Scene {
         this.worldLayer
       );
 
-      const tilesAtNorthEast = this.map.getTilesWithin(
+      const tileInFront = this.map.getTilesWithin(
         pentaWorldPoint.x + 1,
-        pentaWorldPoint.y - 1,
+        pentaWorldPoint.y,
         1,
         1,
         { isNotEmpty: true },
         this.worldLayer
       );
 
-      const tilesAtNorth = this.map.getTilesWithin(
-        pentaWorldPoint.x,
-        pentaWorldPoint.y - 1,
-        1,
-        1,
-        { isNotEmpty: true },
-        this.worldLayer
-      );
+      if (tileInFront.length === 1) {
+        const tilesAtNorthEast = this.map.getTilesWithin(
+          pentaWorldPoint.x + 1,
+          pentaWorldPoint.y - 1,
+          1,
+          1,
+          { isNotEmpty: true },
+          this.worldLayer
+        );
 
-      if (
-        (tilesAtNorthEast.length === 0 && tilesAtNorth.length === 0) ||
-        this.penta.isJumping
-      ) {
-        this.jump();
-      } else {
-        // horizontal flipping penta sprite
-        penta.flipX = true;
-        this.penta.direction *= -1;
+        const tilesAtNorth = this.map.getTilesWithin(
+          pentaWorldPoint.x,
+          pentaWorldPoint.y - 1,
+          1,
+          1,
+          { isNotEmpty: true },
+          this.worldLayer
+        );
+
+        if (
+          (tilesAtNorthEast.length === 0 && tilesAtNorth.length === 0) ||
+          this.penta.isJumping
+        ) {
+          this.jump();
+        } else {
+          // horizontal flipping penta sprite
+          penta.flipX = true;
+          this.penta.direction *= -1;
+        }
       }
     }
 
@@ -232,33 +301,44 @@ export default class BaseGameScene extends Scene {
         this.worldLayer
       );
 
-      const tilesAtNorthWest = this.map.getTilesWithin(
+      const tileInFront = this.map.getTilesWithin(
         pentaWorldPoint.x - 1,
-        pentaWorldPoint.y - 1,
+        pentaWorldPoint.y,
         1,
         1,
         { isNotEmpty: true },
         this.worldLayer
       );
 
-      const tilesAtNorth = this.map.getTilesWithin(
-        pentaWorldPoint.x,
-        pentaWorldPoint.y - 1,
-        1,
-        1,
-        { isNotEmpty: true },
-        this.worldLayer
-      );
+      if (tileInFront.length === 1) {
+        const tilesAtNorthWest = this.map.getTilesWithin(
+          pentaWorldPoint.x - 1,
+          pentaWorldPoint.y - 1,
+          1,
+          1,
+          { isNotEmpty: true },
+          this.worldLayer
+        );
 
-      if (
-        (tilesAtNorthWest.length === 0 && tilesAtNorth.length === 0) ||
-        this.penta.isJumping
-      ) {
-        this.jump();
-      } else {
-        // default orientation of penta sprite
-        penta.flipX = false;
-        this.penta.direction *= -1;
+        const tilesAtNorth = this.map.getTilesWithin(
+          pentaWorldPoint.x,
+          pentaWorldPoint.y - 1,
+          1,
+          1,
+          { isNotEmpty: true },
+          this.worldLayer
+        );
+
+        if (
+          (tilesAtNorthWest.length === 0 && tilesAtNorth.length === 0) ||
+          this.penta.isJumping
+        ) {
+          this.jump();
+        } else {
+          // default orientation of penta sprite
+          penta.flipX = false;
+          this.penta.direction *= -1;
+        }
       }
     }
   }
@@ -278,8 +358,8 @@ export default class BaseGameScene extends Scene {
       this.cameras.main
     );
 
-    worldPoint.x = Math.floor(worldPoint.x);
-    worldPoint.y = Math.floor(worldPoint.y);
+    worldPoint.x = ~~worldPoint.x;
+    worldPoint.y = ~~worldPoint.y;
 
     const pentaWorldPoint = this.map.worldToTileXY(
       this.penta.x,
@@ -300,14 +380,13 @@ export default class BaseGameScene extends Scene {
       this.penta.direction *= -1;
       this.penta.flipX = !this.penta.flipX;
     } else {
-      if (
-        !this.map.getTileAt(
-          worldPoint.x,
-          worldPoint.y,
-          undefined,
-          this.worldLayer
-        )
-      ) {
+      const tileInPointerPos = this.map.getTileAt(
+        worldPoint.x,
+        worldPoint.y,
+        undefined,
+        this.worldLayer
+      );
+      if (!tileInPointerPos || tileInPointerPos.index === 9) {
         if (this.tilePoint !== null) {
           this.map.removeTileAt(
             this.tilePoint.x,
@@ -324,10 +403,14 @@ export default class BaseGameScene extends Scene {
           undefined,
           this.worldLayer
         );
-        createdTile.setCollision(true);
 
+        createdTile.setCollision(true);
         this.tilePoint = new Phaser.Geom.Point(createdTile.x, createdTile.y);
       }
     }
+  }
+
+  endLevel(penta, layer) {
+    this.levelEnded = true;
   }
 }

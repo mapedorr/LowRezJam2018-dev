@@ -31,10 +31,11 @@ window.gameOptions = {
   // player speeds while jumping
   playerJumpSpeed: {
     x: 5,
-    y: -16
+    y: -26
   },
   changeDirectionRange: 8,
-  gameSpritesKey: 'spritesAtlas'
+  gameSpritesKey: 'spritesAtlas',
+  debugging: false
 };
 
 window.game = new Phaser.Game({
@@ -47,7 +48,7 @@ window.game = new Phaser.Game({
     pixelArt: true
   },
   canvas: document.getElementById('game'),
-  backgroundColor: 0x313131,
+  backgroundColor: 0x0f380f,
   scene: [
     BootScene,
     SplashScene,

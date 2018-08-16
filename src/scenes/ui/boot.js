@@ -96,8 +96,8 @@ export default class BootScene extends Scene {
     );
     this.load.bitmapFont(
       'KenneyMini',
-      urlBase + 'assets/fonts/KenneyMini12px_0.png',
-      urlBase + 'assets/fonts/KenneyMini12px.fnt'
+      urlBase + 'assets/fonts/KenneyMini-8px_0.png',
+      urlBase + 'assets/fonts/KenneyMini-8px.fnt'
     );
 
     // load the atlas with all the sprites for the game
@@ -110,6 +110,14 @@ export default class BootScene extends Scene {
     // load the JSONs and sprites for the levels
     this.load.image('tiles', 'assets/levels/tiles.png');
     this.load.tilemapTiledJSON('map', 'assets/levels/lvl01.json');
+
+    // load audio
+    // load music
+    this.load.audio('mainTheme', 'assets/audio/music/BlindBirdTheme.ogg');
+
+    // load sfx
+    this.load.audio('pause', 'assets/audio/sfx/UI_Pause.ogg');
+    this.load.audio('unpause', 'assets/audio/sfx/UI_Unpause.ogg');
 
     // fake loader
     // for (var i = 0; i < 500; i++) {

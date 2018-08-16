@@ -20,15 +20,16 @@ export default class MainMenuScene extends Scene {
       y: 46,
       font: 'KenneyMini',
       text: 'start',
-      size: 12,
+      size: 8,
+      color: 0x306230,
       onClick: self => {
         this.changeToScene('baseGameScene');
       },
       onHover: self => {
-        self.setTint(0xff99ff);
+        self.setTint(0x8bac0f);
       },
       onOut: self => {
-        self.setTint(0xffffff);
+        self.setTint(0x306230);
       },
       scale: 1.0
     });
@@ -38,15 +39,16 @@ export default class MainMenuScene extends Scene {
       y: 56,
       font: 'KenneyMini',
       text: 'credits',
-      size: 12,
+      size: 8,
+      color: 0x306230,
       onClick: self => {
         this.open('creditsScene');
       },
       onHover: self => {
-        self.setTint(0xff99ff);
+        self.setTint(0x8bac0f);
       },
       onOut: self => {
-        self.setTint(0xffffff);
+        self.setTint(0x306230);
       },
       scale: 1.0
     });

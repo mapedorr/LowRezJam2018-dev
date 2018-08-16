@@ -18,6 +18,9 @@ export default class HUDGameScene extends Scene {
       'ui/pause_btn'
     );
 
+    this.pauseSound = this.sound.add('pause');
+    this.unpauseSound = this.sound.add('unpause');
+
     this.pausedTxt = this.add.bitmapText(32, 32, 'KenneyMini', 'paused', 8);
     this.pausedTxt.setOrigin(0.5);
     this.pausedTxt.alpha = 0;
@@ -33,6 +36,7 @@ export default class HUDGameScene extends Scene {
         this.pausedTxt.alpha = 0;
 
         this.paused = false;
+        this.unpauseSound.play();
       } else {
         this.pauseBtn.setTexture(
           window.gameOptions.gameSpritesKey,
@@ -42,6 +46,7 @@ export default class HUDGameScene extends Scene {
         this.pausedTxt.alpha = 1;
 
         this.paused = true;
+        this.pauseSound.play();
       }
     });
 
