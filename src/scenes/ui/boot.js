@@ -7,8 +7,8 @@ export default class BootScene extends Scene {
   constructor() {
     super({ key: 'bootScene' });
 
-    // this.nextScene = 'madeWithScene'; // DEFAUL
-    this.nextScene = 'baseGameScene';
+    this.nextScene = 'madeWithScene'; // DEFAUL
+    // this.nextScene = 'baseGameScene';
   }
 
   preload() {
@@ -109,7 +109,7 @@ export default class BootScene extends Scene {
 
     // load the JSONs and sprites for the levels
     this.load.image('tiles', 'assets/levels/tiles.png');
-    this.load.tilemapTiledJSON('map', 'assets/levels/lvl01.json');
+    this.load.tilemapTiledJSON('map', 'assets/levels/lvl02.json');
 
     // load audio
     // load music
@@ -118,6 +118,13 @@ export default class BootScene extends Scene {
     // load sfx
     this.load.audio('pause', 'assets/audio/sfx/UI_Pause.ogg');
     this.load.audio('unpause', 'assets/audio/sfx/UI_Unpause.ogg');
+    this.load.audio('build', 'assets/audio/sfx/UI_Build.ogg');
+    this.load.audio('fall', 'assets/audio/sfx/Bird_Fall.ogg');
+    this.load.audio('footsteps', 'assets/audio/sfx/Bird_FS.ogg');
+    this.load.audio('jump', 'assets/audio/sfx/Bird_Jump.ogg');
+
+    this.load.image('full', 'assets/sprites/full-nest.png');
+    this.load.image('empty', 'assets/sprites/empty-nest.png');
 
     // fake loader
     // for (var i = 0; i < 500; i++) {

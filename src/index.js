@@ -31,7 +31,7 @@ window.gameOptions = {
   // player speeds while jumping
   playerJumpSpeed: {
     x: 5,
-    y: -26
+    y: -32
   },
   changeDirectionRange: 8,
   gameSpritesKey: 'spritesAtlas',

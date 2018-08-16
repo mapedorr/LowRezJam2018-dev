@@ -21,10 +21,23 @@ export default class BaseGameScene extends Scene {
 
     this.events.on('pause', _ => {
       this.music.pause();
+
+      if (this.footstepsSound.isPlaying) {
+        this.footstepsSound.pause();
+      }
+      if (this.jumpSound.isPlaying) {
+        this.jumpSound.pause();
+      }
     });
 
     this.events.on('resume', _ => {
       this.music.resume();
+      if (this.footstepsSound.isPaused) {
+        this.footstepsSound.resume();
+      }
+      if (this.jumpSound.isPaused) {
+        this.jumpSound.resume();
+      }
     });
 
     // set defaults
@@ -57,15 +70,15 @@ export default class BaseGameScene extends Scene {
     // Parameters: layer name (or index) from Tiled, tileset, x, y
     this.belowLayer = this.map.createDynamicLayer('background', tileset);
     this.worldLayer = this.map.createDynamicLayer('ground', tileset);
-    this.exitLayer = this.map.createDynamicLayer('exit', tileset);
+    // this.exitLayer = this.map.createDynamicLayer('exit', tileset);
 
     // setup collisions with layers
     this.worldLayer.setCollisionByProperty({
       collides: true
     });
-    this.exitLayer.setCollisionByProperty({
-      collides: true
-    });
+    // this.exitLayer.setCollisionByProperty({
+    //   collides: true
+    // });
 
     // ┌ code of block took from: https://bit.ly/2O9udu8 ───────┐
     if (window.gameOptions.debugging === true) {
@@ -82,6 +95,34 @@ export default class BaseGameScene extends Scene {
       'objects',
       obj => obj.name === 'Spawn Point'
     );
+    const exitPoint = this.map.findObject(
+      'objects',
+      obj => obj.name === 'Exit Point'
+    );
+    // └───────────────────────────────────────────────────────────────────────┘
+
+    this.add.image(exitPoint.x, exitPoint.y, 'empty');
+
+    // ┌ add tutorial texts ───────────────────────────────────────────────────┐
+    this.pausedTxt = this.add
+      .bitmapText(
+        5,
+        200,
+        'KenneyMini',
+        'click anywhere on\nan empty spot to\ncreate a platform\nfor Torca',
+        6
+      )
+      .setTint(0x9bbc0f);
+
+    this.pausedTxt = this.add
+      .bitmapText(
+        140,
+        215,
+        'KenneyMini',
+        'you can create\nonly one platform\nat once',
+        6
+      )
+      .setTint(0x9bbc0f);
     // └───────────────────────────────────────────────────────────────────────┘
 
     // ┌ setup Penta ──────────────────────────────────────────────────────────┐
@@ -131,13 +172,13 @@ export default class BaseGameScene extends Scene {
     );
 
     // Watch the player and exitLayer for collisions, for the duration of the scene:
-    this.exitLayerCollider = this.physics.add.collider(
-      this.penta,
-      this.exitLayer,
-      this.endLevel,
-      null,
-      this
-    );
+    // this.exitLayerCollider = this.physics.add.collider(
+    //   this.penta,
+    //   this.exitLayer,
+    //   this.endLevel,
+    //   null,
+    //   this
+    // );
 
     // set penta's horizontal and vertical speeds
     this.penta.body.velocity.x = window.gameOptions.playerSpeed;
@@ -146,7 +187,7 @@ export default class BaseGameScene extends Scene {
     this.cameras.main.roundPixels = true;
 
     // set workd bounds to allow camera to follow the player
-    this.cameras.main.setBounds(0, 0, 256, 64);
+    this.cameras.main.setBounds(0, 0, 256, 256);
 
     // making the camera follow the player
     this.cameras.main.startFollow(this.penta);
@@ -156,11 +197,19 @@ export default class BaseGameScene extends Scene {
     this.input.on('pointerdown', this.addBlock, this);
     // └───────────────────────────────────────────────────────────────────────┘
 
+    // ┌ setup music and sfx ──────────────────────────────────────────────────┐
     this.music = this.sound.add('mainTheme');
     this.music.volume = 0.5;
     this.music.play({
       loop: -1
     });
+
+    this.fallSound = this.sound.add('fall');
+    this.footstepsSound = this.sound.add('footsteps');
+    this.footstepsSound.volume = 0.2;
+    this.jumpSound = this.sound.add('jump');
+    this.buildSound = this.sound.add('build');
+    // └───────────────────────────────────────────────────────────────────────┘
   }
 
   shutdown() {
@@ -190,7 +239,17 @@ export default class BaseGameScene extends Scene {
 
       if (this.penta.anims.currentAnim.key !== 'penta-fall') {
         this.penta.anims.play('penta-fall');
+        this.footstepsSound.stop();
       }
+    }
+
+    if (
+      this.penta.x - this.penta.width / 2 <= 0 ||
+      this.penta.x + this.penta.width / 2 >= this.worldLayer.width
+    ) {
+      this.penta.flipX = !this.penta.flipX;
+      this.penta.direction *= -1;
+      this.penta.x += 2 * this.penta.direction;
     }
 
     if (this.penta.y > this.worldLayer.height + 16) {
@@ -231,7 +290,14 @@ export default class BaseGameScene extends Scene {
       this.penta.isJumping = false;
 
       if (penta.anims.currentAnim.key !== 'penta-walk') {
+        if (penta.anims.currentAnim.key === 'penta-fall') {
+          this.fallSound.play();
+        }
+
         penta.anims.play('penta-walk');
+        this.footstepsSound.play({
+          loop: -1
+        });
       }
     }
 
@@ -351,6 +417,8 @@ export default class BaseGameScene extends Scene {
 
     if (this.penta.anims.currentAnim.key !== 'penta-jump') {
       this.penta.anims.play('penta-jump');
+      this.jumpSound.play();
+      this.footstepsSound.stop();
     }
   }
 
@@ -408,11 +476,15 @@ export default class BaseGameScene extends Scene {
 
         createdTile.setCollision(true);
         this.tilePoint = new Phaser.Geom.Point(createdTile.x, createdTile.y);
+
+        this.buildSound.play();
       }
     }
   }
 
-  endLevel(penta, layer) {
-    this.levelEnded = true;
+  endLevel(penta, tile) {
+    // tile.tilemapLayer.removeTileAt(10, tile.x, tile.y);
+    // tile.tilemapLayer.update();
+    // tile.destroy();
   }
 }
