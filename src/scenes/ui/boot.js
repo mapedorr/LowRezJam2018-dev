@@ -7,8 +7,8 @@ export default class BootScene extends Scene {
   constructor() {
     super({ key: 'bootScene' });
 
-    this.nextScene = 'madeWithScene'; // DEFAUL
-    // this.nextScene = 'baseGameScene';
+    // this.nextScene = 'madeWithScene'; // DEFAUL
+    this.nextScene = 'baseGameScene';
   }
 
   preload() {
