@@ -21,7 +21,9 @@ export default class HUDGameScene extends Scene {
     this.pauseSound = this.sound.add('pause');
     this.unpauseSound = this.sound.add('unpause');
 
-    this.pausedTxt = this.add.bitmapText(32, 32, 'KenneyMini', 'paused', 8);
+    this.pausedTxt = this.add
+      .bitmapText(32, 32, 'KenneyMini', 'paused', 12)
+      .setTint(0x9bbc0f);
     this.pausedTxt.setOrigin(0.5);
     this.pausedTxt.alpha = 0;
 
@@ -49,7 +51,5 @@ export default class HUDGameScene extends Scene {
         this.pauseSound.play();
       }
     });
-
-    // this.registry.events.on('changedata', this.updateData, this);
   }
 }

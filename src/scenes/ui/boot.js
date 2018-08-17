@@ -8,7 +8,7 @@ export default class BootScene extends Scene {
     super({ key: 'bootScene' });
 
     this.nextScene = 'madeWithScene'; // DEFAUL
-    // this.nextScene = 'creditsScene';
+    // this.nextScene = 'baseGameScene';
   }
 
   preload() {
@@ -58,9 +58,6 @@ export default class BootScene extends Scene {
     this.load.audio('fall', 'assets/audio/sfx/Bird_Fall.ogg');
     this.load.audio('footsteps', 'assets/audio/sfx/Bird_FS.ogg');
     this.load.audio('jump', 'assets/audio/sfx/Bird_Jump.ogg');
-
-    this.load.image('full', 'assets/sprites/full-nest.png');
-    this.load.image('empty', 'assets/sprites/empty-nest.png');
 
     // fake loader
     // for (var i = 0; i < 500; i++) {

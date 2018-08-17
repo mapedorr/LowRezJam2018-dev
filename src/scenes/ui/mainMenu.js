@@ -16,11 +16,11 @@ export default class MainMenuScene extends Scene {
 
     // ┌ add buttons to the menu ──────────────────────────────────────────────┐
     this.start = this.createButton({
-      x: 32,
-      y: 46,
+      x: 61,
+      y: 56,
       font: 'KenneyMini',
       text: 'start',
-      size: 8,
+      size: 6,
       color: 0x306230,
       onClick: self => {
         this.changeToScene('baseGameScene');
@@ -32,14 +32,14 @@ export default class MainMenuScene extends Scene {
         self.setTint(0x306230);
       },
       scale: 1.0
-    });
+    }).setOrigin(1);
 
     this.credits = this.createButton({
-      x: 32,
-      y: 56,
+      x: 61,
+      y: 64,
       font: 'KenneyMini',
       text: 'credits',
-      size: 8,
+      size: 6,
       color: 0x306230,
       onClick: self => {
         this.open('creditsScene');
@@ -51,7 +51,7 @@ export default class MainMenuScene extends Scene {
         self.setTint(0x306230);
       },
       scale: 1.0
-    });
+    }).setOrigin(1);
     // └───────────────────────────────────────────────────────────────────────┘
   }
 }

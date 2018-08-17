@@ -13,14 +13,19 @@ export default class BaseGameScene extends Scene {
       key: 'baseGameScene',
       ownInputHandlers: true
     });
+
+    this.timesplash = 5000;
+    this.nextScene = 'endGameScene';
   }
 
   create(params) {
     // create the scene and assign a random number to it
     super.create(params);
 
+    this.levelEnded = false;
+
     this.events.on('pause', _ => {
-      this.music.pause();
+      this.mainThemeSound.pause();
 
       if (this.footstepsSound.isPlaying) {
         this.footstepsSound.pause();
@@ -31,7 +36,7 @@ export default class BaseGameScene extends Scene {
     });
 
     this.events.on('resume', _ => {
-      this.music.resume();
+      this.mainThemeSound.resume();
       if (this.footstepsSound.isPaused) {
         this.footstepsSound.resume();
       }
@@ -101,7 +106,21 @@ export default class BaseGameScene extends Scene {
     );
     // └───────────────────────────────────────────────────────────────────────┘
 
-    this.add.image(exitPoint.x, exitPoint.y, 'empty');
+    this.exitSprite = this.add.sprite(
+      exitPoint.x,
+      exitPoint.y,
+      window.gameOptions.gameSpritesKey,
+      'characters/nest/empty_birds-001'
+    );
+    this.exitBottomLeft = this.exitSprite.getBottomLeft();
+    this.exitTopRight = this.exitSprite.getTopRight();
+
+    this.anims.create({
+      key: 'nest-dancing',
+      frames: this.generateFrameNames('nest/full', 4),
+      frameRate: 6,
+      repeat: -1
+    });
 
     // ┌ add tutorial texts ───────────────────────────────────────────────────┐
     this.pausedTxt = this.add
@@ -142,19 +161,19 @@ export default class BaseGameScene extends Scene {
     // AnimationConfig: https://photonstorm.github.io/phaser3-docs/global.html#AnimationConfig
     this.anims.create({
       key: 'penta-fall',
-      frames: this.generateFrameNames('fall'),
+      frames: this.generateFrameNames('penta/fall'),
       frameRate: 1,
       repeat: 1
     });
     this.anims.create({
       key: 'penta-walk',
-      frames: this.generateFrameNames('walk', 6),
+      frames: this.generateFrameNames('penta/walk', 6),
       frameRate: 14,
       repeat: -1
     });
     this.anims.create({
       key: 'penta-jump',
-      frames: this.generateFrameNames('jump'),
+      frames: this.generateFrameNames('penta/jump'),
       frameRate: 10,
       repeat: -1
     });
@@ -198,9 +217,9 @@ export default class BaseGameScene extends Scene {
     // └───────────────────────────────────────────────────────────────────────┘
 
     // ┌ setup music and sfx ──────────────────────────────────────────────────┐
-    this.music = this.sound.add('mainTheme');
-    this.music.volume = 0.5;
-    this.music.play({
+    this.mainThemeSound = this.sound.add('mainTheme');
+    this.mainThemeSound.volume = 0.5;
+    this.mainThemeSound.play({
       loop: -1
     });
 
@@ -222,7 +241,6 @@ export default class BaseGameScene extends Scene {
 
     // check if the player has been reached the end of the level
     if (this.levelEnded === true) {
-      this.penta.body.velocity.x = 0;
       return;
     }
 
@@ -243,6 +261,7 @@ export default class BaseGameScene extends Scene {
       }
     }
 
+    // check if Penta is at the bounds of the world
     if (
       this.penta.x - this.penta.width / 2 <= 0 ||
       this.penta.x + this.penta.width / 2 >= this.worldLayer.width
@@ -252,22 +271,44 @@ export default class BaseGameScene extends Scene {
       this.penta.x += 2 * this.penta.direction;
     }
 
-    if (this.penta.y > this.worldLayer.height + 16) {
-      // Flag that the player is dead so that we can stop update from running in the future
-      this.isPlayerDead = true;
-
-      const cam = this.cameras.main;
-      cam.shake(100, 0.05);
-      cam.fade(250, 0, 0, 0);
-
-      // Freeze the player to leave them on screen while fading but remove the marker immediately
-      this.penta.body.moves = false;
-
-      cam.once('camerafadeoutcomplete', () => {
-        this.penta.destroy();
-        this.scene.restart();
-      });
+    // check if Penta is on top of the nest
+    if (
+      this.penta.x >= this.exitBottomLeft.x &&
+      this.penta.x <= this.exitTopRight.x &&
+      this.penta.y >= this.exitTopRight.y &&
+      this.penta.y <= this.exitBottomLeft.y - this.exitSprite.height / 2
+    ) {
+      this.endGame();
     }
+  }
+
+  endGame() {
+    this.levelEnded = true;
+
+    // remove the alive Penta
+    this.penta.setActive(false);
+    this.penta.destroy();
+
+    // stop running sounds
+    this.footstepsSound.stop();
+    this.jumpSound.stop();
+    this.fallSound.stop();
+
+    // remove listeners to prevent creating platforms
+    this.input.removeAllListeners();
+
+    // update the sprite of the nest to show the dancing birds
+    this.exitSprite.anims.play('nest-dancing');
+
+    // start the timer that will pass to the end game scene
+    this.time.delayedCall(
+      this.timesplash,
+      () => {
+        this.changeToScene(this.nextScene);
+      },
+      [],
+      this
+    );
   }
 
   generateFrameNames(animationId, end) {
@@ -275,7 +316,7 @@ export default class BaseGameScene extends Scene {
       start: 1,
       end: end || 2,
       zeroPad: 3,
-      prefix: `characters/penta/${animationId}-`
+      prefix: `characters/${animationId}-`
     });
   }
 

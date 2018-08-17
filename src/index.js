@@ -3,6 +3,7 @@ import 'phaser';
 import BootScene from './scenes/ui/boot';
 
 import SplashScene from './scenes/ui/splash';
+import SplashGeckoScene from './scenes/ui/splashGecko';
 import MadeWithScene from './scenes/ui/madeWith';
 
 import MainMenuScene from './scenes/ui/mainMenu';
@@ -13,6 +14,7 @@ import HUDGameScene from './scenes/game/HUDGame';
 import BaseGameScene from './scenes/game/baseGame';
 
 import PauseScene from './scenes/ui/pause';
+import EndGameScene from './scenes/ui/endGame';
 
 import getSceneManager from './managers/sceneManager';
 import getDataManager from './managers/dataManager';
@@ -52,13 +54,15 @@ window.game = new Phaser.Game({
   scene: [
     BootScene,
     SplashScene,
+    SplashGeckoScene,
     MadeWithScene,
     MainMenuScene,
     OptionsScene,
     CreditsScene,
     HUDGameScene,
     BaseGameScene,
-    PauseScene
+    PauseScene,
+    EndGameScene
   ],
   physics: {
     default: 'arcade',

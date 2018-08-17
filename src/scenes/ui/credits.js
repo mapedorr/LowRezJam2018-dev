@@ -25,8 +25,8 @@ export default class CreditsScene extends Scene {
 
     // add the button for closing the menu
     this.back = this.createButton({
-      x: 4,
-      y: 55,
+      x: 61,
+      y: 64,
       font: 'KenneyMini',
       text: 'back',
       size: 6,
@@ -41,7 +41,7 @@ export default class CreditsScene extends Scene {
         self.setTint(0x306230);
       },
       scale: 1.0
-    }).setOrigin(0);
+    }).setOrigin(1);
   }
 
   addBitmapText(params) {
