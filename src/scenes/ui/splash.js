@@ -24,16 +24,10 @@ export default class SplashScene extends Scene {
       .setTint(0x9bbc0f);
 
     this.add
-      .bitmapText(32, 40, 'KenneyMini', 'Carenalga', 8)
+      .bitmapText(32, 50, 'KenneyMini', 'Mapedorr', 8)
       .setCenterAlign()
       .setOrigin(0.5, 0)
       .setTint(0x9bbc0f);
-
-    this.add
-      .bitmapText(32, 49, 'KenneyMini', '@CapitanVelazco', 6)
-      .setCenterAlign()
-      .setOrigin(0.5, 0)
-      .setTint(0x0f380f);
 
     this.time.delayedCall(
       this.timesplash,

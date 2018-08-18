@@ -4,8 +4,8 @@
 			"image": "spritesAtlas.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 127,
-				"h": 219
+				"w": 198,
+				"h": 198
 			},
 			"scale": 1,
 			"frames": [
@@ -31,280 +31,49 @@
 					}
 				},
 				{
+					"filename": "ui/gecko_idle-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 67,
+						"y": 1,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
 					"filename": "ui/gecko_idle-002",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 64,
 						"h": 64
 					},
 					"spriteSourceSize": {
-						"x": 6,
-						"y": 9,
-						"w": 50,
-						"h": 45
-					},
-					"frame": {
-						"x": 67,
-						"y": 1,
-						"w": 50,
-						"h": 45
-					}
-				},
-				{
-					"filename": "characters/penta/fall-001",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 1,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/idle-001",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 10,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/idle-002",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 19,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/jump-001",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 28,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/jump-002",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 37,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/walk-001",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 46,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "ui/gecko_idle-004",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
 						"w": 64,
 						"h": 64
 					},
-					"spriteSourceSize": {
-						"x": 6,
-						"y": 9,
-						"w": 50,
-						"h": 45
-					},
 					"frame": {
-						"x": 67,
-						"y": 48,
-						"w": 50,
-						"h": 45
+						"x": 133,
+						"y": 1,
+						"w": 64,
+						"h": 64
 					}
 				},
 				{
-					"filename": "characters/penta/walk-002",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 55,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/walk-003",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 64,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/walk-004",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 73,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/walk-005",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 82,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "characters/penta/walk-006",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 91,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "ui/phaser_bg",
+					"filename": "ui/gecko_idle-003",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -325,129 +94,87 @@
 					}
 				},
 				{
-					"filename": "ui/gecko_idle-006",
+					"filename": "ui/gecko_idle-004",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 64,
 						"h": 64
 					},
 					"spriteSourceSize": {
-						"x": 6,
-						"y": 12,
-						"w": 50,
-						"h": 42
-					},
-					"frame": {
-						"x": 67,
-						"y": 95,
-						"w": 50,
-						"h": 42
-					}
-				},
-				{
-					"filename": "ui/pause_btn",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 7,
-						"h": 7
+						"w": 64,
+						"h": 64
 					},
 					"frame": {
-						"x": 119,
-						"y": 100,
-						"w": 7,
-						"h": 7
-					}
-				},
-				{
-					"filename": "ui/play_btn",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 7,
-						"h": 7
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 7,
-						"h": 7
-					},
-					"frame": {
-						"x": 119,
-						"y": 109,
-						"w": 7,
-						"h": 7
+						"x": 1,
+						"y": 133,
+						"w": 64,
+						"h": 64
 					}
 				},
 				{
 					"filename": "ui/gecko_idle-005",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 64,
 						"h": 64
 					},
 					"spriteSourceSize": {
-						"x": 8,
-						"y": 12,
-						"w": 48,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
 					},
 					"frame": {
-						"x": 1,
+						"x": 67,
+						"y": 67,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "ui/gecko_idle-006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 133,
+						"y": 67,
+						"w": 64,
+						"h": 64
+					}
+				},
+				{
+					"filename": "ui/phaser_bg",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 64
+					},
+					"frame": {
+						"x": 67,
 						"y": 133,
-						"w": 48,
-						"h": 42
-					}
-				},
-				{
-					"filename": "ui/gecko_idle-003",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
 						"w": 64,
 						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 13,
-						"w": 49,
-						"h": 41
-					},
-					"frame": {
-						"x": 51,
-						"y": 139,
-						"w": 49,
-						"h": 41
-					}
-				},
-				{
-					"filename": "ui/gecko_idle-001",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 64,
-						"h": 64
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 13,
-						"w": 48,
-						"h": 41
-					},
-					"frame": {
-						"x": 1,
-						"y": 177,
-						"w": 48,
-						"h": 41
 					}
 				},
 				{
@@ -465,8 +192,8 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 102,
-						"y": 139,
+						"x": 133,
+						"y": 133,
 						"w": 24,
 						"h": 16
 					}
@@ -486,10 +213,52 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 102,
-						"y": 157,
+						"x": 159,
+						"y": 133,
 						"w": 24,
 						"h": 16
+					}
+				},
+				{
+					"filename": "characters/penta/fall-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 185,
+						"y": 133,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/idle-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 185,
+						"y": 142,
+						"w": 7,
+						"h": 7
 					}
 				},
 				{
@@ -507,8 +276,8 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 102,
-						"y": 175,
+						"x": 133,
+						"y": 151,
 						"w": 24,
 						"h": 16
 					}
@@ -528,10 +297,73 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 51,
-						"y": 182,
+						"x": 133,
+						"y": 169,
 						"w": 24,
 						"h": 16
+					}
+				},
+				{
+					"filename": "characters/penta/idle-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 133,
+						"y": 187,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/jump-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 142,
+						"y": 187,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/jump-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 151,
+						"y": 187,
+						"w": 7,
+						"h": 7
 					}
 				},
 				{
@@ -549,8 +381,8 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 77,
-						"y": 193,
+						"x": 160,
+						"y": 151,
 						"w": 24,
 						"h": 16
 					}
@@ -570,10 +402,178 @@
 						"h": 15
 					},
 					"frame": {
-						"x": 51,
-						"y": 200,
+						"x": 159,
+						"y": 169,
 						"w": 24,
 						"h": 15
+					}
+				},
+				{
+					"filename": "characters/penta/walk-001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 186,
+						"y": 151,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 186,
+						"y": 160,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 185,
+						"y": 169,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 185,
+						"y": 178,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 160,
+						"y": 187,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "characters/penta/walk-006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 169,
+						"y": 187,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "ui/pause_btn",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 178,
+						"y": 187,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "ui/play_btn",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 7,
+						"h": 7
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 187,
+						"y": 187,
+						"w": 7,
+						"h": 7
 					}
 				}
 			]
@@ -582,6 +582,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:c03a73ee49499a7c26c750990633da19:dc39ec709fc44f74306c642f5d56c6f8:941fdc8fcb393b91cb8b27a54e5a9c98$"
+		"smartupdate": "$TexturePacker:SmartUpdate:2e630c30634c76fbd3e830e806fc4c46:70d0a16e201a8ffda8d9a4f19d257f51:941fdc8fcb393b91cb8b27a54e5a9c98$"
 	}
 }

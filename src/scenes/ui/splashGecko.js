@@ -3,7 +3,7 @@ import Scene from '../scene';
 export default class SplashGeckoScene extends Scene {
   constructor() {
     super({ key: 'splashGeckoScene' });
-    this.timesplash = 3000;
+    this.timesplash = 13000;
     this.nextScene = 'mainMenu';
   }
 
