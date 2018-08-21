@@ -63,19 +63,19 @@ export default class BootScene extends Scene {
     this.load.audio('jump', 'assets/audio/sfx/Bird_Jump.ogg');
     this.load.audio(
       'uiHighlightCredits',
-      '/assets/audio/sfx/UI_Highlight_Credits.ogg'
+      'assets/audio/sfx/UI_Highlight_Credits.ogg'
     );
     this.load.audio(
       'uiHighlightEnter',
-      '/assets/audio/sfx/UI_Highlight_Enter.ogg'
+      'assets/audio/sfx/UI_Highlight_Enter.ogg'
     );
     this.load.audio(
       'uiHighlightStart',
-      '/assets/audio/sfx/UI_Highlight_Start.ogg'
+      'assets/audio/sfx/UI_Highlight_Start.ogg'
     );
     this.load.audio(
       'uiHighlightBack',
-      '/assets/audio/sfx/UI_Highlight_Back.ogg'
+      'assets/audio/sfx/UI_Highlight_Back.ogg'
     );
     // └───────────────────────────────────────────────────────────────────────┘
   }
