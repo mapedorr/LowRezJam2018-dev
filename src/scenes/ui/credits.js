@@ -8,6 +8,11 @@ export default class CreditsScene extends Scene {
   create(params) {
     super.create(params);
 
+    // ┌ load the background music and ui sfx ─────────────────────────────────┐
+    this.uiHighlightEnterSound = this.sound.add('uiHighlightEnter');
+    this.uiHighlightBackSound = this.sound.add('uiHighlightBack');
+    // └───────────────────────────────────────────────────────────────────────┘
+
     // add the text for credits
     const keys = [
       { text: 'Blind Bird', y: 2, color: 0x8bac0f },
@@ -32,9 +37,11 @@ export default class CreditsScene extends Scene {
       size: 6,
       color: 0x306230,
       onClick: self => {
+        this.uiHighlightEnterSound.play();
         this.close();
       },
       onHover: self => {
+        this.uiHighlightBackSound.play();
         self.setTint(0x8bac0f);
       },
       onOut: self => {

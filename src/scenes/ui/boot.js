@@ -43,25 +43,40 @@ export default class BootScene extends Scene {
       `assets/sprites/${window.gameOptions.gameSpritesKey}.json`
     );
 
+    // load 'out-of-atlas' images
+    this.load.image('mainMenu_bg', 'assets/sprites/mainMenu_bg.png');
+
     // load the JSONs and sprites for the levels
     this.load.image('tiles', 'assets/levels/tiles.png');
     this.load.tilemapTiledJSON('map', 'assets/levels/lvl02.json');
 
-    // load audio
-    // load music
+    // ┌ load audio ───────────────────────────────────────────────────────────┐
+    // ├ load music
     this.load.audio('mainTheme', 'assets/audio/music/BlindBirdTheme.ogg');
-
-    // load sfx
+    this.load.audio('titleTheme', 'assets/audio/music/BlindBirdTitleTheme.ogg');
+    // ├ load sfx
     this.load.audio('pause', 'assets/audio/sfx/UI_Pause.ogg');
     this.load.audio('unpause', 'assets/audio/sfx/UI_Unpause.ogg');
     this.load.audio('build', 'assets/audio/sfx/UI_Build.ogg');
     this.load.audio('fall', 'assets/audio/sfx/Bird_Fall.ogg');
     this.load.audio('footsteps', 'assets/audio/sfx/Bird_FS.ogg');
     this.load.audio('jump', 'assets/audio/sfx/Bird_Jump.ogg');
-
-    // fake loader
-    // for (var i = 0; i < 500; i++) {
-    //   this.load.spritesheet(`logo-${i}`, urlBase + 'assets/phaserLogo.png', { frameWidth: 382, frameHeight: 331 })
-    // }
+    this.load.audio(
+      'uiHighlightCredits',
+      '/assets/audio/sfx/UI_Highlight_Credits.ogg'
+    );
+    this.load.audio(
+      'uiHighlightEnter',
+      '/assets/audio/sfx/UI_Highlight_Enter.ogg'
+    );
+    this.load.audio(
+      'uiHighlightStart',
+      '/assets/audio/sfx/UI_Highlight_Start.ogg'
+    );
+    this.load.audio(
+      'uiHighlightBack',
+      '/assets/audio/sfx/UI_Highlight_Back.ogg'
+    );
+    // └───────────────────────────────────────────────────────────────────────┘
   }
 }
